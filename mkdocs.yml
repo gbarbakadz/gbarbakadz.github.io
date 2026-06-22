@@ -1,9 +1,12 @@
 site_name: Infosec Docs
 site_url: https://gbarbakadz.github.io
+
 theme:
   name: material
   icon:
     logo: material/bird
+
+
 
   palette:
     # Palette toggle for light mode
@@ -30,8 +33,8 @@ theme:
     - content.action.view
     - content.tooltips
     - navigation.tracking
-    - navigation.top 
-    - navigation.sections
+    - navigation.top
+    - navigation.indexes
     - navigation.path
     - search.share
     - search.suggest
@@ -66,3 +69,6 @@ extra:
       link: https://barbakadze.medium.com/
     - icon: simple/github
       link: https://github.com/gbarbakadz
+
+
+
