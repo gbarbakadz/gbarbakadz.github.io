@@ -1,5 +1,4 @@
-
-# Login Brute Forcing Cheat Sheet
+# Login Brute Forcing
 
 ## What is Brute Forcing?
 A trial-and-error method used to crack passwords, login credentials, or encryption keys by systematically trying every possible combination of characters.
